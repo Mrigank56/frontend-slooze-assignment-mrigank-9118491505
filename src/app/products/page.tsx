@@ -31,9 +31,21 @@ const GET_PRODUCTS = gql`
   }
 `;
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  createdAt: string;
+}
+
+interface ProductsData {
+  products: Product[];
+}
+
 export default function ProductsPage() {
   const { user, logout, isAuthenticated } = useAuth();
-  const { loading, error, data } = useQuery(GET_PRODUCTS);
+  const { loading, error, data } = useQuery<ProductsData>(GET_PRODUCTS);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");

@@ -21,9 +21,21 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
+interface LoginResponse {
+  login: {
+    token: string;
+    user: {
+      id: number;
+      email: string;
+      role: "MANAGER" | "STORE_KEEPER";
+    };
+  };
+}
+
 export default function LoginPage() {
   const { register, handleSubmit } = useForm();
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION);
+  const [login, { loading, error }] =
+    useMutation<LoginResponse>(LOGIN_MUTATION);
   const { login: authLogin } = useAuth();
   const [loginError, setLoginError] = useState("");
   const router = useRouter();

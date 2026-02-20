@@ -16,10 +16,15 @@ const GET_PRODUCTS_COUNT = gql`
   }
 `;
 
+interface ProductsCountData {
+  products: { id: number }[];
+}
+
 export default function DashboardPage() {
   const { user, logout, isAuthenticated } = useAuth();
   const router = useRouter();
-  const { data: productsData } = useQuery(GET_PRODUCTS_COUNT);
+  const { data: productsData } =
+    useQuery<ProductsCountData>(GET_PRODUCTS_COUNT);
 
   useEffect(() => {
     if (!isAuthenticated) {
