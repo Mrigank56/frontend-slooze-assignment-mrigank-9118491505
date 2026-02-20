@@ -35,19 +35,26 @@ const GET_PRODUCTS = gql`
   }
 `;
 
+interface CreateProductResponse {
+  createProduct: {
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
+  };
+}
+
 export default function AddProductPage() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [createProduct, { loading, error }] = useMutation(
-    CREATE_PRODUCT_MUTATION,
-    {
+  const [createProduct, { loading, error }] =
+    useMutation<CreateProductResponse>(CREATE_PRODUCT_MUTATION, {
       refetchQueries: [{ query: GET_PRODUCTS }],
       awaitRefetchQueries: true,
-    },
-  );
+    });
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const { user, isAuthenticated } = useAuth();

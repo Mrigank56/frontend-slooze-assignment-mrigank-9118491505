@@ -33,6 +33,24 @@ const UPDATE_PRODUCT_MUTATION = gql`
   }
 `;
 
+interface ProductData {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
+  };
+}
+
+interface UpdateProductResponse {
+  updateProduct: {
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
+  };
+}
+
 export default function EditProductPage() {
   const { id } = useParams();
   const productId = parseInt(id as string);
@@ -44,13 +62,16 @@ export default function EditProductPage() {
     formState: { errors },
   } = useForm();
 
-  const { data: productData, loading: productLoading } = useQuery(GET_PRODUCT, {
-    variables: { id: productId },
-    skip: !productId,
-  });
+  const { data: productData, loading: productLoading } = useQuery<ProductData>(
+    GET_PRODUCT,
+    {
+      variables: { id: productId },
+      skip: !productId,
+    },
+  );
 
   const [updateProduct, { loading: updateLoading, error: updateError }] =
-    useMutation(UPDATE_PRODUCT_MUTATION);
+    useMutation<UpdateProductResponse>(UPDATE_PRODUCT_MUTATION);
 
   const router = useRouter();
   const [success, setSuccess] = useState(false);
